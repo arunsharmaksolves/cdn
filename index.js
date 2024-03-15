@@ -7,7 +7,7 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     console.log("DOM Loaded");
-    console.log("Nice");
+    console.log("Version Updated");
     const eventsToTrack = ['click', 'mouseover', 'mouseout', 'keydown', 'submit']; 
 
     // Attach event listeners for all specified event types
