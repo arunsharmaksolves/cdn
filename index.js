@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Function to add event listener for specified elements
-    window.addEventListenerForElements = function(elementsToTrack, eventType) {
+    export function addEventListenerForElements(elementsToTrack, eventType) {
     elementsToTrack.forEach(elementCriteria => {
         const elements = document.querySelectorAll(elementCriteria);
         elements.forEach(element => {
@@ -41,7 +41,8 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     });
-};
+}
+
 
     // // Example usage
     // const buttonsToTrack = ['#addToCart', '#like']; // Client-specified button IDs
