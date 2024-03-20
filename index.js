@@ -53,6 +53,23 @@ addEventListenerForElements = function(elementsToTrack, eventType) {
                     timeSpent: timeSpent // Add time spent to event data
                 };
 
+                // Send event data to server
+                fetch('http://localhost:3000/events', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(eventData)
+                }).then(response => {
+                    if (response.ok) {
+                        console.log('Event data sent successfully');
+                    } else {
+                        console.error('Failed to send event data:', response.statusText);
+                    }
+                }).catch(error => {
+                    console.error('Error sending event data:', error);
+                });
+
                 window.dataLayer = window.dataLayer || [];
                 window.dataLayer.push(eventData);
                 console.log(`${eventType} event fired on ${elementCriteria} at`, currentTime);
