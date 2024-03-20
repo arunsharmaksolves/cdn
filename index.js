@@ -7,26 +7,48 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     console.log("DOM Loaded");
-    console.log("Version Updated");
-    const eventsToTrack = ['click', 'mouseover', 'mouseout', 'keydown', 'submit']; 
 
-    // Attach event listeners for all specified event types
-    eventsToTrack.forEach(eventType => {
-        document.addEventListener(eventType, (event) => {
-            if(eventType == "click"){
-                if(event.target.innerText === "Add To cart"){
-                    console.log("Add to cart Event fired ",event, new Date());
-                }
-            }
-            if(eventType == "submit"){
-                event.preventDefault();
-                console.log("Submit Event fired at",event, new Date());
-            }
-            if (eventType === "mouseover") {
-                if (event.target.tagName.toLowerCase() === 'h1' && event.target.innerText === 'Hello World') {
-                    console.log("Mouseover Event fired on 'Hello World' at", new Date());
-                }
-            }
+    // Function to check if an element matches the specified criteria
+    function isElementToTrack(element, criteria) {
+        return (
+            element.tagName.toLowerCase() === criteria.toLowerCase() || // Check tag name
+            element.id === criteria // Check HTML tag ID
+        );
+    }
+
+    // Function to add event listener for specified elements
+    function addEventListenerForElements(elementsToTrack, eventType) {
+        elementsToTrack.forEach(elementCriteria => {
+            const elements = document.querySelectorAll(elementCriteria);
+            elements.forEach(element => {
+                element.addEventListener(eventType, (event) => {
+                    if (eventType === 'submit') {
+                        event.preventDefault(); // Prevent default form submission behavior
+                    }
+                    const eventData = {
+                        event: eventType,
+                        timestamp: new Date().toISOString(),
+                        target: {
+                            tagName: event.target.tagName,
+                            id: event.target.id,
+                            innerText: event.target.innerText
+                        }
+                    };
+
+                    window.dataLayer = window.dataLayer || [];
+                    window.dataLayer.push(eventData);
+                    console.log(`${eventType} event fired on ${elementCriteria} at`, new Date());
+                });
+            });
         });
-    });
+    }
+
+    // // Example usage
+    // const buttonsToTrack = ['#addToCart', '#like']; // Client-specified button IDs
+    // const formToTrack = ['#myForm'];
+
+    // // Attach event listeners for specified buttons and form
+    // addEventListenerForElements(buttonsToTrack, 'click');
+    // addEventListenerForElements(formToTrack, 'submit');
 });
+
