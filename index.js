@@ -17,31 +17,31 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Function to add event listener for specified elements
-    function addEventListenerForElements(elementsToTrack, eventType) {
-        elementsToTrack.forEach(elementCriteria => {
-            const elements = document.querySelectorAll(elementCriteria);
-            elements.forEach(element => {
-                element.addEventListener(eventType, (event) => {
-                    if (eventType === 'submit') {
-                        event.preventDefault(); // Prevent default form submission behavior
+    window.addEventListenerForElements = function(elementsToTrack, eventType) {
+    elementsToTrack.forEach(elementCriteria => {
+        const elements = document.querySelectorAll(elementCriteria);
+        elements.forEach(element => {
+            element.addEventListener(eventType, (event) => {
+                if (eventType === 'submit') {
+                    event.preventDefault(); // Prevent default form submission behavior
+                }
+                const eventData = {
+                    event: eventType,
+                    timestamp: new Date().toISOString(),
+                    target: {
+                        tagName: event.target.tagName.toLowerCase(),
+                        id: event.target.id,
+                        innerText: event.target.innerText
                     }
-                    const eventData = {
-                        event: eventType,
-                        timestamp: new Date().toISOString(),
-                        target: {
-                            tagName: event.target.tagName,
-                            id: event.target.id,
-                            innerText: event.target.innerText
-                        }
-                    };
+                };
 
-                    window.dataLayer = window.dataLayer || [];
-                    window.dataLayer.push(eventData);
-                    console.log(`${eventType} event fired on ${elementCriteria} at`, new Date());
-                });
+                window.dataLayer = window.dataLayer || [];
+                window.dataLayer.push(eventData);
+                console.log(`${eventType} event fired on ${elementCriteria} at`, new Date());
             });
         });
-    }
+    });
+};
 
     // // Example usage
     // const buttonsToTrack = ['#addToCart', '#like']; // Client-specified button IDs
