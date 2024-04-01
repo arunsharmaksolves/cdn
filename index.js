@@ -54,7 +54,7 @@ addEventListenerForElements = function(elementsToTrack, eventType) {
                 };
 
                 // Send event data to server
-                fetch('http://localhost:3000/events', {
+                fetch('https://ktm-server-7zfr.onrender.com/events', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
